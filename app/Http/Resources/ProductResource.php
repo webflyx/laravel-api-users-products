@@ -19,6 +19,7 @@ class ProductResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->whenNotNull($this->price),
+            'users' => UserResource::collection($this->whenLoaded('users')),
         ];
     }
 }
