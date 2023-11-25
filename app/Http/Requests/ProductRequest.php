@@ -23,7 +23,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:1|max:255',
-            'description' => 'required|string|min:1|max:255',
+            'description' => 'nullable|string|min:1|max:255',
             'price' => 'required|numeric|min:1|max:9999999999',
             'users_id' => 'nullable|array',
             'users_id.*' => 'exists:users,id',

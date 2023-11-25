@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
@@ -11,6 +10,7 @@ class ProductService
     private function setProductUserRelation(Product $product, $data)
     {
         if(isset($data['users_id'])) {
+            DB::table('product_user')->where('product_id', $product->id)->delete();
             foreach($data['users_id'] as $user_id){
                 DB::table('product_user')->insert([
                     'product_id'=> $product->id,
@@ -24,21 +24,22 @@ class ProductService
     {
         $product = Product::create([
             'title' => $data['title'],
-            'description' => $data['description'],
+            'description' => $data['description'] ?? null,
             'price' => $data['price'],
         ]);
 
         $this->setProductUserRelation($product, $data);
     }
 
-    public function update(User $user, array $data)
+    public function update(Product $product, array $data)
     {
-        $user->update([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name']
+        $product->update([
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+            'price' => $data['price']
         ]);
 
-        $this->setProductUserRelation($user, $data);
+        $this->setProductUserRelation($product, $data);
     }
 
 

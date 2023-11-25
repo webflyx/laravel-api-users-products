@@ -10,6 +10,7 @@ class UserService
     private function setProductUserRelation(User $user, $data)
     {
         if(isset($data['products_id'])) {
+            DB::table('product_user')->where('user_id', $user->id)->delete();
             foreach($data['products_id'] as $product_id){
                 DB::table('product_user')->insert([
                     'user_id'=> $user->id,

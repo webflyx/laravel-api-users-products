@@ -39,13 +39,18 @@ class ProductController extends Controller
         ]));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $productService = new ProductService();
+        $productService->update($product, $request->validated());
+
+        return response('Product successfully updated', 200);
     }
 
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return response(status: 204);
     }
 }
