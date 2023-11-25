@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Services\ProductService;
+use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -20,9 +22,12 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $productService = new ProductService();
+        $productService->create($request->validated());
+
+        return response('Product successfully created', 200);
     }
 
     public function show(Product $product)
