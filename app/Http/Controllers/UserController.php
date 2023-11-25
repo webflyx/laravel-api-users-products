@@ -35,13 +35,18 @@ class UserController extends Controller
         return new UserResource($user->load('products'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(StoreUserRequest $request, User $user)
     {
-        //
+        $userService = new UserService();
+        $userService->update($user, $request->validated());
+
+        return response('User successfully updated', 200);
     }
 
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response(status: 204);
     }
 }
