@@ -32,7 +32,11 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        //
+        return new ProductResource($product->load([
+            'users' => function ($query) {
+                $query->select('id', 'first_name', 'last_name');
+            }
+        ]));
     }
 
     public function update(Request $request, Product $product)
