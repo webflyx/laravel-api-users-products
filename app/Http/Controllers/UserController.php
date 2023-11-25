@@ -13,7 +13,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('products')->get();
+        $users = User::select('id', 'first_name', 'last_name')->with([
+            'products' => function ($query) {
+                $query->select('id', 'title', 'description');
+            }
+        ])->get();
         
         return UserResource::collection($users);
     }
@@ -28,7 +32,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        //
+        return new UserResource($user->load('products'));
     }
 
     public function update(Request $request, User $user)
