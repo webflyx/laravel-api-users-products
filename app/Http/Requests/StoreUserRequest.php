@@ -25,7 +25,8 @@ class StoreUserRequest extends FormRequest
         return [
             'first_name' => 'required|string|min:1|max:255',
             'last_name' => 'required|string|min:1|max:255',
-            'products_id' => 'nullable|array|exists:products,id',
+            'products_id' => 'nullable|array',
+            'products_id.*' => 'exists:products,id',
             'avatar' => 'nullable|image|max:10240',
         ];
     }
