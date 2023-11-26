@@ -16,9 +16,9 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
+            'id' => $this->whenNotNull($this->id),
+            'first_name' => $this->whenNotNull($this->first_name),
+            'last_name' => $this->whenNotNull($this->last_name),
             'amount' => $this->whenNotNull($this->amount),
             'avatar' => $this->whenNotNull($this->avatar),
             'products' => ProductResource::collection($this->whenLoaded('products')),

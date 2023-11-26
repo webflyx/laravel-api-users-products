@@ -13,9 +13,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::select('id', 'first_name', 'last_name')->with([
+        $users = User::limitData(['id', 'first_name', 'last_name'])->with([
             'products' => function ($query) {
-                $query->select('id', 'title', 'description');
+                $query->limitData(['id', 'title', 'description']);
             }
         ])->latest()->paginate(10);
         

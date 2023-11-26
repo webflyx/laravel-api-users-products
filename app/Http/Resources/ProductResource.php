@@ -15,9 +15,9 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
+            'id' => $this->whenNotNull($this->id),
+            'title' => $this->whenNotNull($this->title),
+            'description' => $this->whenNotNull($this->description),
             'price' => $this->whenNotNull($this->price),
             'users' => UserResource::collection($this->whenLoaded('users')),
         ];

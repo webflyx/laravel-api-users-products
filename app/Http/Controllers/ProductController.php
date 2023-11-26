@@ -14,7 +14,7 @@ class ProductController extends Controller
     {
         $products = Product::with([
             'users' => function ($query) {
-                $query->select('id', 'first_name', 'last_name');
+                $query->limitData(['id', 'first_name', 'last_name']);
             }
         ])->latest()->paginate(10);
         
@@ -33,7 +33,7 @@ class ProductController extends Controller
     {
         return new ProductResource($product->load([
             'users' => function ($query) {
-                $query->select('id', 'first_name', 'last_name');
+                $query->limitData(['id', 'first_name', 'last_name']);
             }
         ]));
     }
