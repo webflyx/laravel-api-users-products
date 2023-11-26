@@ -16,7 +16,7 @@ class ProductController extends Controller
             'users' => function ($query) {
                 $query->select('id', 'first_name', 'last_name');
             }
-        ])->get();
+        ])->latest()->paginate(10);
         
         return ProductResource::collection($products);
     }

@@ -17,7 +17,7 @@ class UserController extends Controller
             'products' => function ($query) {
                 $query->select('id', 'title', 'description');
             }
-        ])->get();
+        ])->latest()->paginate(10);
         
         return UserResource::collection($users);
     }
