@@ -22,9 +22,8 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function store(UserRequest $request)
+    public function store(UserService $userService, UserRequest $request)
     {
-        $userService = new UserService();
         $userService->create($request->validated());
 
         return response('User successfully created', 200);
@@ -35,17 +34,16 @@ class UserController extends Controller
         return new UserResource($user->load('products'));
     }
 
-    public function update(UserRequest $request, User $user)
+    public function update(UserService $userService, UserRequest $request, User $user)
     {
-        $userService = new UserService();
         $userService->update($user, $request->validated());
 
         return response('User successfully updated', 200);
     }
 
-    public function destroy(User $user)
+    public function destroy(UserService $userService, User $user)
     {
-        $user->delete();
+        $userService->delete($user);
 
         return response(status: 204);
     }

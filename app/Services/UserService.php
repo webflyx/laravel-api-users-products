@@ -7,19 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class UserService
 {
-    private function setProductUserRelation(User $user, $data)
-    {
-        if(isset($data['products_id'])) {
-            DB::table('product_user')->where('user_id', $user->id)->delete();
-            foreach($data['products_id'] as $product_id){
-                DB::table('product_user')->insert([
-                    'user_id'=> $user->id,
-                    'product_id'=> $product_id,
-                ]);
-            }
-        }
-    }
-
     public function create(array $data)
     {
         $user = User::create([
@@ -27,9 +14,11 @@ class UserService
             'last_name' => $data['last_name']
         ]);
 
-        $this->setProductUserRelation($user, $data);
+        if (isset($data['products_id'])) {
+            $user->products()->attach($data['products_id']);
+        }
 
-        if(isset($data['avatar'])){
+        if (isset($data['avatar'])) {
             $file = $data['avatar'];
             $path = $file->store('avatars', 'public');
 
@@ -46,9 +35,14 @@ class UserService
             'last_name' => $data['last_name']
         ]);
 
-        $this->setProductUserRelation($user, $data);
+        if (isset($data['products_id'])) {
+            $user->products()->sync($data['products_id']);
+        }
     }
 
-
-
+    public function delete(User $user)
+    {
+        $user->products()->detach();
+        $user->delete();
+    }
 }

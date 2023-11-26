@@ -21,9 +21,8 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
-    public function store(ProductRequest $request)
+    public function store(ProductService $productService, ProductRequest $request)
     {
-        $productService = new ProductService();
         $productService->create($request->validated());
 
         return response('Product successfully created', 200);
@@ -38,17 +37,16 @@ class ProductController extends Controller
         ]));
     }
 
-    public function update(ProductRequest $request, Product $product)
+    public function update(ProductService $productService, ProductRequest $request, Product $product)
     {
-        $productService = new ProductService();
         $productService->update($product, $request->validated());
 
         return response('Product successfully updated', 200);
     }
 
-    public function destroy(Product $product)
+    public function destroy(ProductService $productService, Product $product)
     {
-        $product->delete();
+        $productService->delete($product);
 
         return response(status: 204);
     }
