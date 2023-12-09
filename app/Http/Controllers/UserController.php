@@ -27,7 +27,7 @@ class UserController extends Controller
         $userService->create($request->validated());
 
         return response('User successfully created', 200);
-    }
+    }   
 
     public function show(User $user)
     {
