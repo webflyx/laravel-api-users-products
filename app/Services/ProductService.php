@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\NewProductProccessed;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
@@ -15,6 +16,8 @@ class ProductService
             'description' => $data['description'] ?? null,
             'price' => $data['price'],
         ]);
+
+        event(new NewProductProccessed($product));
 
         if (isset($data['users_id'])) {
             $product->users()->attach($data['users_id']);
